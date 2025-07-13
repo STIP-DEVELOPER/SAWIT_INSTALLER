@@ -10,11 +10,13 @@ const logs_1 = __importDefault(require("../../logs"));
 const requestHandler_1 = require("../../utilities/requestHandler");
 const deviceSchema_1 = require("../../schemas/deviceSchema");
 const deviceModel_1 = require("../../models/deviceModel");
+const uuid_1 = require("uuid");
 const createDevice = async (req, res) => {
     const { error: validationError, value: validatedData } = (0, requestHandler_1.validateRequest)(deviceSchema_1.createDeviceSchema, req.body);
     if (validationError)
         return (0, requestHandler_1.handleValidationError)(res, validationError);
     try {
+        validatedData.token = (0, uuid_1.v4)();
         await deviceModel_1.DeviceModel.create(validatedData);
         logs_1.default.info(`Create device request result successfully`);
         return res.status(http_status_codes_1.StatusCodes.CREATED).json(response_1.ResponseData.success({}));

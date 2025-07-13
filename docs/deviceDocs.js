@@ -16,15 +16,21 @@
  *         fertilizerVolume:
  *           type: integer
  *           example: 500
- *         distance:
+ *         fertilizeType:
+ *           type: string
+ *           enum: [NPK, UREA, DOLOMIT, MOP, KIESERITE, ROCK PHOSPHATE]
+ *           example: "NPK"
+ *         speed:
  *           type: integer
- *           example: 120
+ *           example: 10
+ *
  *       required:
  *          - name
  *          - status
  *          - fertilizerVolume
- *          - distance
-
+ *          - fertilizeType
+ *          - speed
+ *
  *     IDeviceUpdateRequest:
  *       type: object
  *       properties:
@@ -41,9 +47,14 @@
  *         fertilizerVolume:
  *           type: integer
  *           example: 600
- *         distance:
+ *         fertilizeType:
+ *           type: string
+ *           enum: [NPK, UREA, DOLOMIT, MOP, KIESERITE, ROCK PHOSPHATE]
+ *           example: "NPK"
+ *         speed:
  *           type: integer
- *           example: 100
+ *           example: 10
+ *
  *       required:
  *         - id
 

@@ -11,7 +11,10 @@ exports.createDeviceSchema = joi_1.default.object({
     name: joi_1.default.string().required(),
     status: joi_1.default.string().valid('active', 'inactive', 'maintenance').required(),
     fertilizerVolume: joi_1.default.number().integer().positive().required(),
-    distance: joi_1.default.number().integer().positive().required()
+    fertilizeType: joi_1.default.string()
+        .valid('NPK', 'UREA', 'DOLOMIT', 'MOP', 'KIESERITE', 'ROCK PHOSPHATE')
+        .required(),
+    speed: joi_1.default.number().integer().positive().required()
 });
 exports.updateDeviceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,
@@ -19,7 +22,10 @@ exports.updateDeviceSchema = joi_1.default.object({
     name: joi_1.default.string().optional(),
     status: joi_1.default.string().valid('active', 'inactive', 'maintenance').optional(),
     fertilizerVolume: joi_1.default.number().integer().positive().optional(),
-    distance: joi_1.default.number().integer().positive().optional()
+    fertilizeType: joi_1.default.string()
+        .valid('NPK', 'UREA', 'DOLOMIT', 'MOP', 'KIESERITE', 'ROCK PHOSPHATE')
+        .optional(),
+    speed: joi_1.default.number().integer().positive().optional()
 });
 exports.removeDeviceSchema = joi_1.default.object({
     jwtPayload: jwtPayloadSchema_1.jwtPayloadSchema,

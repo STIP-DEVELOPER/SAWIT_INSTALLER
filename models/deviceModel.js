@@ -20,10 +20,20 @@ exports.DeviceModel = config_1.sequelize.define('Device', {
         allowNull: false,
         defaultValue: 0
     },
-    distance: {
+    fertilizeType: {
+        type: sequelize_1.DataTypes.ENUM('NPK', 'UREA', 'DOLOMIT', 'MOP', 'KIESERITE', 'ROCK PHOSPHATE'),
+        allowNull: false,
+        defaultValue: 'NPK'
+    },
+    speed: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
+    },
+    token: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: ''
     }
 }, {
     tableName: 'device',
