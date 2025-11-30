@@ -4,6 +4,7 @@ exports.DeviceModel = void 0;
 const sequelize_1 = require("sequelize");
 const config_1 = require("../database/config");
 const baseModelFields_1 = require("../database/baseModelFields");
+const locationModel_1 = require("./locationModel");
 exports.DeviceModel = config_1.sequelize.define('Device', {
     ...baseModelFields_1.BaseModelFields,
     name: {
@@ -32,6 +33,7 @@ exports.DeviceModel = config_1.sequelize.define('Device', {
     },
     token: {
         type: sequelize_1.DataTypes.STRING,
+        unique: true,
         allowNull: false,
         defaultValue: ''
     }
@@ -39,4 +41,14 @@ exports.DeviceModel = config_1.sequelize.define('Device', {
     tableName: 'device',
     timestamps: true,
     underscored: true
+});
+exports.DeviceModel.hasMany(locationModel_1.LocationModel, {
+    foreignKey: 'deviceId',
+    as: 'locations',
+    onDelete: 'CASCADE'
+});
+locationModel_1.LocationModel.belongsTo(exports.DeviceModel, {
+    foreignKey: 'deviceId',
+    as: 'device',
+    onDelete: 'CASCADE'
 });

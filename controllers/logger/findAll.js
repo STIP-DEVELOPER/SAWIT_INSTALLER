@@ -1,23 +1,19 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllDevice = void 0;
+exports.findAllLogger = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const sequelize_1 = require("sequelize");
-const logs_1 = __importDefault(require("../../logs"));
 const pagination_1 = require("../../utilities/pagination");
 const requestHandler_1 = require("../../utilities/requestHandler");
 const response_1 = require("../../utilities/response");
-const deviceSchema_1 = require("../../schemas/deviceSchema");
-const deviceModel_1 = require("../../models/deviceModel");
-const findAllDevice = async (req, res) => {
-    const { error: validationError, value: queryParams } = (0, requestHandler_1.validateRequest)(deviceSchema_1.findAllDeviceSchema, req.query);
+const loggerSchema_1 = require("../../schemas/loggerSchema");
+const logModel_1 = require("../../models/logModel");
+const findAllLogger = async (req, res) => {
+    const { error: validationError, value: queryParams } = (0, requestHandler_1.validateRequest)(loggerSchema_1.findAllLoggerSchema, req.query);
     if (validationError)
         return (0, requestHandler_1.handleValidationError)(res, validationError);
     try {
-        const { page: queryPage, size: querySize, search, pagination, startDate, endDate, status } = queryParams;
+        const { page: queryPage, size: querySize, search, pagination, startDate, endDate } = queryParams;
         const page = new pagination_1.Pagination(Number(queryPage) || 0, Number(querySize) || 10);
         const dateFilter = startDate && endDate
             ? {
@@ -26,14 +22,11 @@ const findAllDevice = async (req, res) => {
                 }
             }
             : {};
-        const result = await deviceModel_1.DeviceModel.findAndCountAll({
+        const result = await logModel_1.LogModel.findAndCountAll({
             where: {
                 deleted: false,
                 ...(search && {
                     name: { [sequelize_1.Op.like]: `%${search}%` }
-                }),
-                ...(status && {
-                    status: status
                 }),
                 ...dateFilter
             },
@@ -43,7 +36,6 @@ const findAllDevice = async (req, res) => {
             })
         });
         const response = response_1.ResponseData.success({ data: result });
-        logs_1.default.info('Device Result retrieved successfully');
         response.data = page.formatData(result);
         return res.status(http_status_codes_1.StatusCodes.OK).json(response);
     }
@@ -51,4 +43,4 @@ const findAllDevice = async (req, res) => {
         return (0, requestHandler_1.handleServerError)(res, serverError);
     }
 };
-exports.findAllDevice = findAllDevice;
+exports.findAllLogger = findAllLogger;
